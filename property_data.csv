@@ -1,0 +1,24 @@
+Category,Attribute,Value
+home,beds,4
+home,baths,5
+home,sqft,6300
+home,lot_sqft,8581
+home,year_built,2006
+location,street_address,506 Palisades Ave
+location,city,Santa Monica
+location,state,California
+location,postal_code,90402
+price,list_price,6295000
+price,price_per_sqft,937
+school_1,name,Roosevelt Elementary School
+school_1,distance_in_miles,0.3
+school_1,rating,8
+school_2,name,Lincoln Middle School
+school_2,distance_in_miles,0.9
+school_2,rating,8
+school_3,name,Santa Monica High School
+school_3,distance_in_miles,1.5
+school_3,rating,9
+school_4,name,Carlthorp
+school_4,distance_in_miles,0.4
+school_4,rating,
