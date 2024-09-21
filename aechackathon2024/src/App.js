@@ -1,6 +1,7 @@
 import './App.css';
 import {APIProvider, Map, MapCameraChangedEvent} from '@vis.gl/react-google-maps';
-import { useState } from 'react';
+import  ZipToGeo  from './utilities/ziptogeo'
+import { useState, useEffect } from 'react';
 import {
   Button,
   Form,
@@ -16,12 +17,18 @@ function App() {
   const [price, setPrice] = useState('')
   const [zip, setZipCode] = useState('')
   const [propertyType, setPropertyType] = useState('')
+  const [latitude, setLatitude] = useState(34.052235)
+  const [longitude, setLongitude] = useState(-118.243683)
   
   const submit = (e) =>{
     e.preventDefault();
 
-    console.log(price, zip, propertyType)
+    let lat, long;
+    ({lat, long} =  ZipToGeo(zip));
+    setLatitude(lat)
+    setLongitude(long)
   }
+
 
   return (<div className="App">
       <h1 id ="title">Find Your Apartment</h1>
@@ -55,7 +62,7 @@ function App() {
       <APIProvider apiKey={'AIzaSyBR4OUYOMC4iSFYayAdkfgjfc_itpVDGfA'} onLoad={() => console.log('Maps API has loaded.')}>
         <Map
             defaultZoom={13}
-            defaultCenter={ { lat: -33.860664, lng: 151.208138 } }
+            center={ { lat: latitude, lng: longitude } }
             onCameraChanged={ (ev: MapCameraChangedEvent) =>
             console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
             }>
