@@ -56,4 +56,7 @@ By default, Flask will run on `http://127.0.0.1:5000/`. You should see output in
 
 ### 4. Using the Application
 
-Once you have flask up and running, go back to the React webpage that opened with the `npm run dev` command from earlier. Now you can input an address and the application will display the 5 most similar areas to the area that the input address is in!
+Once you have flask up and running, go back to the React webpage that opened with the `npm run dev` command from earlier. Now you can input an address and the application will display the 5 most similar areas to the area that the input address is in! Here's a demonstration:
+
+![]
+(https://github.com/bucksers/AECTech-Hackathon-Apartment-Finder/VibeScout.gif)
