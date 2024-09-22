@@ -8,7 +8,7 @@ This application was built in React on the front-end. To run the front-end porti
 3. run `npm run dev` to run the application
 
 ## To Set Up the Back-End
-The back-end portion of VibeScout uses Flask, a lightweight Python framework, along with Flask-CORS to handle cross-origin resource sharing. To set up and run the Flask server:
+The back-end portion of VibeScout uses Flask, a lightweight Python framework, along with Flask-CORS to handle cross-origin resource sharing. First open up a new terminal in the parent directory of the `aechackathon2024` folder. To set up and run the Flask server:
 
 ### 1. Install Python and Virtual Environment
 
