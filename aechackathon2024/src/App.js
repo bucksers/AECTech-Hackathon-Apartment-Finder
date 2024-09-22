@@ -20,12 +20,11 @@ function App() {
   const [ latitude, setLatitude ] = useState(34.052913)
   const [ longitude, setLongitude ] = useState(-118.264340)
 
-  const [  posits, setPosits  ] = useState([
-    {key: '1', location: { lat: 34.039378, lng: -118.266300  }},
-    {key: '2', location: { lat: 34.028331, lng: -118.354338  }},
-    {key: '3', location: { lat: 34.028887, lng: -118.317183  }},
-    {key: '4', location: { lat: 34.049841, lng: -118.338460  }}
-  ])
+  const [  posits90, setPosits90  ] = useState([])
+
+  const [  posits80, setPosits80  ] = useState([])
+
+  const [  posits70, setPosits70  ] = useState([])
   
   const submit = async (e) =>{
     e.preventDefault();
@@ -49,16 +48,35 @@ function App() {
 
     const data = await response.json();
     if (data.status === 'success') {
-      const rankedAreas = data.data;
+      let posits90arr = []
+      let posits80arr = []
+      let posits70arr = []
+
+      //const rankedAreas = data.data;
+      const rankedAreas = [
+
+        {area: "Area 1", "similarity_score": 90, lat: 34.039378, lng: -118.266300 },
+        {area: "Area 2", "similarity_score": 85, lat: 34.028331, lng: -118.354338 },
+        {area: "Area 3", "similarity_score": 80, lat: 34.028887, lng: -118.317183  },
+        {area: "Area 4", "similarity_score": 75, lat: 34.049841, lng: -118.338460 },
+      ]
+
+      for (let i = 0; i < rankedAreas.length; i++){
+        let obj = { key: i + 1, location: {lat: rankedAreas[i].lat, lng: rankedAreas[i].lng}}
+        if (rankedAreas[i]["similarity_score"] >= 90){
+          posits90arr.push(obj)
+        } else if (rankedAreas[i]["similarity_score"]  >= 80 && rankedAreas[i]["similarity_score"]  < 90){
+          posits80arr.push(obj)
+        } else if (rankedAreas[i]["similarity_score"]  >= 70 && rankedAreas[i]["similarity_score"]  < 80){
+          posits70arr.push(obj)
+        }
+      }
 
       // Update the positions based on the API response
-      setPosits([
-        { key: '1', location: ZipToGeo((zip - 2).toString()) },
-        { key: '2', location: ZipToGeo((zip - 1).toString()) },
-        { key: '3', location: ZipToGeo((zip + 1).toString()) },
-        { key: '4', location: ZipToGeo((zip + 2).toString()) }
-      ]);
-      
+      setPosits90(posits90arr)
+      setPosits80(posits80arr)
+      setPosits70(posits70arr)
+
       console.log('Ranked Areas:', rankedAreas);
     } else {
       console.error('There is Error:', data.message);
@@ -111,11 +129,25 @@ function App() {
           <AdvancedMarker
             position={{ lat: latitude, lng: longitude }}>
           </AdvancedMarker>
-          {posits.map( (posit) => (
+          {posits90.map( (posit) => (
             <AdvancedMarker
               key={ posit.key }
               position={ posit.location }>
-              <Pin background={'#FBBC04'} glyphColor={'#000'} borderColor={'#000'} />
+              <Pin background={'#002366'} glyphColor={'#000'} borderColor={'#000'} />
+            </AdvancedMarker>
+          ))}
+          {posits80.map( (posit) => (
+            <AdvancedMarker
+              key={ posit.key }
+              position={ posit.location }>
+              <Pin background={'#2A52BE'} glyphColor={'#000'} borderColor={'#000'} />
+            </AdvancedMarker>
+          ))}
+          {posits70.map( (posit) => (
+            <AdvancedMarker
+              key={ posit.key }
+              position={ posit.location }>
+              <Pin background={'#ADD8E6'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
         </APIProvider>
