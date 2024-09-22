@@ -21,9 +21,14 @@ function App() {
   const [ propertyType, setPropertyType ] = useState('')
   const [ latitude, setLatitude ] = useState(34.052913)
   const [ longitude, setLongitude ] = useState(-118.264340)
-  const [  posits90, setPosits90  ] = useState([])
-  const [  posits80, setPosits80  ] = useState([])
-  const [  posits70, setPosits70  ] = useState([])
+  const [  posits1, setPosits1  ] = useState([])
+  const [  posits2, setPosits2  ] = useState([])
+  const [  posits3, setPosits3  ] = useState([])
+  const [  posits4, setPosits4  ] = useState([])
+  const [  posits5, setPosits5  ] = useState([])
+
+  const [ priceDisplay, setPriceDisplay ] = useState('')
+
 
   const submit = async (e) =>{
     e.preventDefault();
@@ -64,34 +69,23 @@ function App() {
 
     const data = await response.json();
     if (data.status === 'success') {
-      let posits90arr = []
-      let posits80arr = []
-      let posits70arr = []
 
       //const rankedAreas = data.data;
       const rankedAreas = [
 
-        {area: "Area 1", "similarity_score": 90, lat: 34.039378, lng: -118.266300 },
-        {area: "Area 2", "similarity_score": 85, lat: 34.028331, lng: -118.354338 },
-        {area: "Area 3", "similarity_score": 80, lat: 34.028887, lng: -118.317183  },
-        {area: "Area 4", "similarity_score": 75, lat: 34.049841, lng: -118.338460 },
+        {price: 234442, lat: 34.039378, lng: -118.266300 },
+        {price: 345344, lat: 34.028331, lng: -118.354338 },
+        {price: 456545, lat: 34.028887, lng: -118.317183  },
+        {price: 567567, lat: 34.049841, lng: -118.338460 },
+        {price: 234234, lat: 34.066379, lng: -118.309870},
       ]
 
-      for (let i = 0; i < rankedAreas.length; i++){
-        let obj = { key: i + 1, location: {lat: rankedAreas[i].lat, lng: rankedAreas[i].lng}}
-        if (rankedAreas[i]["similarity_score"] >= 90){
-          posits90arr.push(obj)
-        } else if (rankedAreas[i]["similarity_score"]  >= 80 && rankedAreas[i]["similarity_score"]  < 90){
-          posits80arr.push(obj)
-        } else if (rankedAreas[i]["similarity_score"]  >= 70 && rankedAreas[i]["similarity_score"]  < 80){
-          posits70arr.push(obj)
-        }
-      }
-
       // Update the positions based on the API response
-      setPosits90(posits90arr)
-      setPosits80(posits80arr)
-      setPosits70(posits70arr)
+      setPosits1([rankedAreas[0]])
+      setPosits2([rankedAreas[1]])
+      setPosits3([rankedAreas[2]])
+      setPosits4([rankedAreas[3]])
+      setPosits5([rankedAreas[4]])
 
       console.log('Ranked Areas:', rankedAreas);
     } else {
@@ -152,13 +146,16 @@ function App() {
               <Button color="primary">Find Your Zip Code!</Button>
             </Form>
         </Row>
+        <Row>
+          Price - ${priceDisplay}
+        </Row>
       </Container>
       <div id="googlemaps">
       <APIProvider apiKey={'AIzaSyBR4OUYOMC4iSFYayAdkfgjfc_itpVDGfA'} onLoad={() => console.log('Maps API has loaded.')}>
         <Map
             defaultZoom={10}
             center={ { lat: latitude, lng: longitude } }
-    mapId='DEMO_MAP_ID'
+            mapId='DEMO_MAP_ID'
             onCameraChanged={ (ev: MapCameraChangedEvent) =>
             console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
             }>
@@ -166,29 +163,46 @@ function App() {
           <AdvancedMarker
             position={{ lat: latitude, lng: longitude }}>
           </AdvancedMarker>
-          {posits90.map( (posit) => (
+          {posits1.map( (posit) => (
             <AdvancedMarker
-              key={ posit.key }
-              position={ posit.location }
-              clickable={true}>
-              <Pin background={'#002366'} glyphColor={'#000'} borderColor={'#000'} />
+              position={ { lat: posit["lat"], lng: posit["lng"] } }
+              price={posit.price}
+              onClick={()=>setPriceDisplay(posit.price)}>
+              <Pin background={'#1a2ae6'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
-          {posits80.map( (posit) => (
+          {posits2.map( (posit) => (
             <AdvancedMarker
-              key={ posit.key }
-              position={ posit.location }
-              title={"80"}
-              clickable={true}>
-              <Pin background={'#2A52BE'} glyphColor={'#000'} borderColor={'#000'} />
+              position={ { lat: posit["lat"], lng: posit["lng"] } }
+              price={posit.price}
+              onClick={()=>setPriceDisplay(posit.price)}>
+              <Pin background={'#1a2ae6'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
-          {posits70.map( (posit) => (
+          {posits3.map( (posit) => (
             <AdvancedMarker
               key={ posit.key }
-              position={ posit.location }
-              title={"70"}
-              clickable={true}>
+              position={ { lat: posit["lat"], lng: posit["lng"] } }
+              price={posit.price}
+              onClick={()=>setPriceDisplay(posit.price)}>
+              <Pin background={'#3f4ef9'} glyphColor={'#000'} borderColor={'#000'} />
+            </AdvancedMarker>
+          ))}
+          {posits4.map( (posit) => (
+            <AdvancedMarker
+              key={ posit.key }
+              position={ { lat: posit["lat"], lng: posit["lng"] } }
+              price={posit.price}
+              onClick={()=>setPriceDisplay(posit.price)}>
+              <Pin background={'#8a93ff'} glyphColor={'#000'} borderColor={'#000'} />
+            </AdvancedMarker>
+          ))}
+          {posits5.map( (posit) => (
+            <AdvancedMarker
+              key={ posit.key }
+              position={ { lat: posit["lat"], lng: posit["lng"] } }
+              price={posit.price}
+              onClick={()=>setPriceDisplay(posit.price)}>
               <Pin background={'#ADD8E6'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
