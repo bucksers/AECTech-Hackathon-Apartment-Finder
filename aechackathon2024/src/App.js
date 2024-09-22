@@ -84,7 +84,7 @@ function App() {
 
 
   return (<div className="App">
-      <h1 id ="title">Find Your Zip Code
+      <h1 id ="title">VibeScout
       </h1>
       <Container >
         <Row className="justify-content-center">
