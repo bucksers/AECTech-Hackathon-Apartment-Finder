@@ -36,8 +36,6 @@ function App() {
 
     let addressString = address.split(" ").join("+") + "+" + city.split(" ").join("+") + "+" + stateAbr.split(" ").join("+") + "+" + zip.split(" ").join("+")
 
-    console.log(addressString)
-
     const googleMapResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString}&key=AIzaSyBR4OUYOMC4iSFYayAdkfgjfc_itpVDGfA`, {
       method: 'GET'
     });
@@ -81,9 +79,6 @@ function App() {
       setPosits4([rankedAreas[4]])
       setPosits5([rankedAreas[5]])
 
-      
-
-      console.log("central points:", rankedAreas)
     }
   };
 
