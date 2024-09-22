@@ -1,6 +1,5 @@
 import './App.css';
-import {APIProvider, Map, MapCameraChangedEvent, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
-import  ZipToGeo  from './utilities/ziptogeo'
+import {APIProvider, Map, MapCameraChangedEvent, AdvancedMarker,Pin } from '@vis.gl/react-google-maps';
 import { useState } from 'react';
 import {
   Button,
@@ -15,22 +14,37 @@ import {
 
 function App() {
   const [ price, setPrice ] = useState('')
+  const [ address, setAddress ] = useState('')
+  const [ city, setCity ]= useState('')
+  const [ stateAbr, setStateAbr ]= useState('')
   const [ zip, setZipCode ] = useState('90017')
   const [ propertyType, setPropertyType ] = useState('')
   const [ latitude, setLatitude ] = useState(34.052913)
   const [ longitude, setLongitude ] = useState(-118.264340)
-
   const [  posits90, setPosits90  ] = useState([])
-
   const [  posits80, setPosits80  ] = useState([])
-
   const [  posits70, setPosits70  ] = useState([])
-  
+
   const submit = async (e) =>{
     e.preventDefault();
 
+    let addressString = address.split(" ").join("+") + "+" + city.split(" ").join("+") + "+" + stateAbr.split(" ").join("+") + "+" + zip.split(" ").join("+")
+
+    console.log(addressString)
+
+    const googleMapResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${addressString}&key=AIzaSyBR4OUYOMC4iSFYayAdkfgjfc_itpVDGfA`, {
+      method: 'GET'
+    });
+
+    const googleMapData = await googleMapResponse.json();
     let lat, lng;
-    ({lat, lng} =  ZipToGeo(zip));
+
+    if (googleMapData.status === 'OK'){
+      let location = googleMapData.results[0].geometry.location
+      lat = location.lat
+      lng = location.lng
+    }
+    
     setLatitude(lat)
     setLongitude(lng)
 
@@ -40,9 +54,11 @@ function App() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        zip: zip, 
-        price: price, 
-        propertyType: propertyType
+        lat,
+        lng,
+        zip, 
+        price, 
+        propertyType
       })
     });
 
@@ -97,6 +113,27 @@ function App() {
                   <Input type="number" name="price" id="price" placeholder="Enter your price" value={price} onChange={(e) => setPrice(e.target.value)} />
                 </Col>
               </FormGroup>
+
+              <FormGroup row>
+                <Label htmlFor="address">Street Address</Label>
+                <Col sm={10}>
+                  <Input type="text" name="address" id="address" placeholder="What is your Street?" value={address} onChange={(e) => setAddress(e.target.value)}  />
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Label htmlFor="city">City</Label>
+                <Col sm={10}>
+                  <Input type="text" name="city" id="city" placeholder="What is your City?" value={city} onChange={(e) => setCity(e.target.value)}  />
+                </Col>
+              </FormGroup>
+
+              <FormGroup row>
+                <Label htmlFor="stateAbr">State</Label>
+                <Col sm={10}>
+                  <Input type="text" name="stateAbr" id="stateAbr" placeholder="What is your State?" value={stateAbr} onChange={(e) => setStateAbr(e.target.value)}  />
+                </Col>
+              </FormGroup>
               <FormGroup row>
                 <Label htmlFor="zip">Zip Code</Label>
                 <Col sm={10}>
@@ -132,21 +169,26 @@ function App() {
           {posits90.map( (posit) => (
             <AdvancedMarker
               key={ posit.key }
-              position={ posit.location }>
+              position={ posit.location }
+              clickable={true}>
               <Pin background={'#002366'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
           {posits80.map( (posit) => (
             <AdvancedMarker
               key={ posit.key }
-              position={ posit.location }>
+              position={ posit.location }
+              title={"80"}
+              clickable={true}>
               <Pin background={'#2A52BE'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
           {posits70.map( (posit) => (
             <AdvancedMarker
               key={ posit.key }
-              position={ posit.location }>
+              position={ posit.location }
+              title={"70"}
+              clickable={true}>
               <Pin background={'#ADD8E6'} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
           ))}
