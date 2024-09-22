@@ -27,7 +27,7 @@ function App() {
     {key: '4', location: { lat: 34.049841, lng: -118.338460  }}
   ])
   
-  const submit = (e) =>{
+  const submit = async (e) =>{
     e.preventDefault();
 
     let lat, lng;
@@ -35,16 +35,36 @@ function App() {
     setLatitude(lat)
     setLongitude(lng)
 
-    let zipNumber = parseInt(zip);
+    const response = await fetch('http://127.0.0.1:5000/rank-areas', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        zip: zip, 
+        price: price, 
+        propertyType: propertyType
+      })
+    });
 
-    setPosits([
-    {key: '1', location: ZipToGeo((zipNumber - 2).toString()) },
-    {key: '2', location: ZipToGeo((zipNumber - 1).toString()) },
-    {key: '3', location: ZipToGeo((zipNumber + 1).toString()) },
-    {key: '4', location: ZipToGeo((zipNumber + 2).toString()) }
-    ])
+    const data = await response.json();
+    if (data.status === 'success') {
+      const rankedAreas = data.data;
 
-  }
+      // Update the positions based on the API response
+      setPosits([
+        { key: '1', location: ZipToGeo((zip - 2).toString()) },
+        { key: '2', location: ZipToGeo((zip - 1).toString()) },
+        { key: '3', location: ZipToGeo((zip + 1).toString()) },
+        { key: '4', location: ZipToGeo((zip + 2).toString()) }
+      ]);
+      
+      console.log('Ranked Areas:', rankedAreas);
+    } else {
+      console.error('There is Error:', data.message);
+    }
+
+  };
 
 
   return (<div className="App">
