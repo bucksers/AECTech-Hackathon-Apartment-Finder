@@ -48,31 +48,34 @@ function App() {
 
 
   return (<div className="App">
-      <h1 id ="title">Find Your Apartment</h1>
+      <h1 id ="title">Find Your Zip Code
+      </h1>
       <Container >
-        <Row>
-          <Col></Col>
-          <Col xl={3}>
+        <Row className="justify-content-center">
             <Form className="p-4" id="initial-form" onSubmit={submit} >
-              <FormGroup>
-                <Label htmlFor="price">Price</Label>
-                <Input type="number" name="price" id="price" placeholder="Enter your price" value={price} onChange={(e) => setPrice(e.target.value)} />
+              <FormGroup row>
+                <Label htmlFor="price" check>Price</Label>
+                <Col sm={10}>
+                  <Input type="number" name="price" id="price" placeholder="Enter your price" value={price} onChange={(e) => setPrice(e.target.value)} />
+                </Col>
               </FormGroup>
-              <FormGroup>
+              <FormGroup row>
                 <Label htmlFor="zip">Zip Code</Label>
-                <Input type="number" name="zip" id="zip" placeholder="What is your zip code?" value={zip} onChange={(e) => setZipCode(e.target.value)}  />
+                <Col sm={10}>
+                  <Input type="number" name="zip" id="zip" placeholder="What is your zip code?" value={zip} onChange={(e) => setZipCode(e.target.value)}  />
+                </Col>
               </FormGroup>
-              <FormGroup>
+              <FormGroup row>
                 <Label htmlFor="propertyType">Property Type</Label><br />
+                <Col sm={10}>
                 <Input type="select" name="propertyType" id="propertyType" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}  >
                   <option value="2">Apartment</option>
                   <option value="3">House</option>
                 </Input>
+                </Col>
               </FormGroup>
-              <Button color="primary">Find Your Apartment!</Button>
+              <Button color="primary">Find Your Zip Code!</Button>
             </Form>
-          </Col>
-          <Col></Col>
         </Row>
       </Container>
       <div id="googlemaps">

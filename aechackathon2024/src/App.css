@@ -3,17 +3,34 @@
   background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.4) 100%);
   color: white;
   border-style: solid;
-  border-radius: 25px;
+}
+
+h1{
+  
+  width:max-content;
+  margin: auto;
+  
+  /* extra style */
+  background: #333;
+  color: #eee;
+  padding: 0 0.5em;
 }
 
 #title {
   font-size: 100px;
   color: rgb(233, 233, 233);
   /* text-shadow: 2px 2px black; */
-  margin-left: 20px;
 }
 
 #googlemaps {
   height: 600px;
   width: 100%;
+}
+
+.p-4 {
+  padding: 15px;
+}
+
+.mb-3 {
+  padding: 15px;
 }
