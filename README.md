@@ -1,6 +1,8 @@
 # AECTech-VIBESCOUT
 VibeScout is an application that lets users find areas in LA that are similar to their input. All you have to do is input an address and the application will return the top five most similar areas based on properties such as green spaces, restauarants, cultural attractions, and much more.
 
+Runner-up for "Best Overall Project" at AEC Tech+ Hackathon: Los Angeles.
+
 ## To Start the Front-End
 This application was built in React on the front-end. To run the front-end portion, follow these steps:
 1. cd into the `"aechackathon2024"` folder
